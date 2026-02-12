@@ -8,7 +8,7 @@ Features
 - Flask API: A lightweight REST interface to send images and receive behavior metrics.
 
 
-Installation
+### Installation
 
 conda env create -f environment.yml
 conda activate qwen3-api
@@ -17,9 +17,9 @@ conda install OpenCV
 ### Install Ollama (if not already installed)
 curl -fsSL https://ollama.com/install.sh | sh
 
-### Pull the Qwen model
+### Pull the needed Qwen model 
 ollama pull qwen3-vl:8b
-
+ollama pull qwen3-vl:2b
 
 Run the API
 

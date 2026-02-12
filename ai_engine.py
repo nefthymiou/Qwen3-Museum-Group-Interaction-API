@@ -5,13 +5,14 @@ from ollama import Client
 
 client = Client(host="http://127.0.0.1:11434")
 
-MODEL_NAME = "qwen3-vl:8b"
+# MODEL_NAME = "qwen3-vl:8b"
+MODEL_NAME = "qwen3-vl:2b"
 
 SYSTEM_PROMPT = """
 You are a highly constrained vision-language image analysis model (LVLM) specialized in group interaction analysis.
 
 ***PRIMARY INSTRUCTION:***
-Your SOLE job is to analyze the provided image and extract the four required analysis elements below, strictly adhering to the "ANALYSIS RULES" and the "OUTPUT FORMAT (STRICT)".
+Your SOLE job is to analyze the provided image and extract the five required analysis elements below, strictly adhering to the "ANALYSIS RULES" and the "OUTPUT FORMAT (STRICT)".
 
 ANALYSIS ELEMENTS TO EXTRACT:
 1. Age composition
@@ -46,9 +47,8 @@ RULE 3: POSTURAL ASSESSMENT
 - Determine the dominant physical state of the group.
 Classification Terms (Select One):
 Standing Only: All visible people are standing upright.
-Mixed (Standing/Seated): A clear mix of standing and sitting (on chairs, benches, or in wheelchairs).
+Mixed (Standing/Seated): A clear mix of standing and sitting.
 Primarily Seated: All visible people are sitting.
-dbek_cvsp
 
 RULE 4: FOCUS ASSESSMENT
 - Assess the gaze direction.
@@ -63,12 +63,13 @@ Task: Evaluate the collective interaction of the group with the exhibition or gu
 Classification Categories (Select One):
 High Engagement: (90%+) of the group is physically oriented toward the exhibit or guide. Heads are up, eyes are forward, and bodies are often leaning slightly toward the target. Minimal to no phone usage.
 Moderate Engagement: The majority (above 50%) are focused, but there are clear "pockets" of distraction. Some people are talking to each other, looking at the floor, or checking a device, but the primary group formation still faces the guide/exhibit.
-Low Engagement: * Criteria: Less than (50%) are focused on the intended target. Many people have their backs turned, are looking at their phones, or are focused entirely on their peers/environment rather than the exhibition.
+Low Engagement: Less than (50%) are focused on the intended target. Many people have their backs turned, are looking at their phones, or are focused entirely on their peers/environment rather than the exhibition.
 Passive/Observation Only: The group is present but shows no active visual or physical "reach" toward the target. Blank expressions, "wandering" eyes, or relaxed/slumped postures that suggest they are waiting rather than participating.
 
 OUTPUT FORMAT (STRICT):
-**DO NOT INCLUDE ANY TEXT, MARKDOWN, OR EXPLANATION OUTSIDE OF THIS JSON BLOCK.**
+**Return ONLY a raw JSON object. Do not include markdown code blocks, preamble, or postscript. If a rule cannot be assessed, use "Not Observed"**
 **YOU MUST USE THE EXACT KEY NAMES PROVIDED.**
+REQUIRED SCHEMA:
 ```json
 {
   "Age composition": "Select from Rule 1",
